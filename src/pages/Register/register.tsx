@@ -3,8 +3,21 @@ import { TextField, Grid, Button } from '@material-ui/core';
 import { REGISTRATION_MUTATION } from '../../api/mutations';
 import { useMutation } from '@apollo/react-hooks';
 import { Formik } from 'formik';
-import { Loading } from '../../components/Loading';
-import { useStyles } from './index.styles';
+import { Loading } from '../../components/Loading/loading';
+import { makeStyles, createStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      height: 'calc(100% - 64px)'
+    },
+
+    form: {
+      boxShadow: '5px 5px 10px rgba(0,0,0,0.3)',
+      padding: '1rem 1rem 2rem 1rem'
+    }
+  })
+);
 
 export const Register: FC = () => {
   const styles = useStyles();
@@ -54,8 +67,7 @@ export const Register: FC = () => {
               console.log('error ', error);
             }
           }}
-        >
-          {({ values, handleSubmit, handleChange }) => (
+          render={({ values, handleSubmit, handleChange }) => (
             <form className={styles.form} onSubmit={handleSubmit}>
               <TextField
                 fullWidth
@@ -89,7 +101,7 @@ export const Register: FC = () => {
               </Button>
             </form>
           )}
-        </Formik>
+        />
       </Grid>
     </Grid>
   );

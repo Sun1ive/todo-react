@@ -4,7 +4,7 @@ const cache = new InMemoryCache();
 
 export const client = new ApolloClient({
   cache,
-  uri: 'https://typeorm-graphql-demo.herokuapp.com/',
+  uri: process.env.REACT_APP_GRAPHQL_LINK,
   request: async (operation) => {
     console.log(operation);
   },
