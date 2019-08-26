@@ -1,12 +1,34 @@
 import React, { FC } from 'react';
-import { TextField, Grid, Button, Typography } from '@material-ui/core';
+import {
+  TextField,
+  Grid,
+  Button,
+  Typography,
+  withStyles
+} from '@material-ui/core';
 import { REGISTRATION_MUTATION } from '../../api/mutations';
 import { useMutation } from '@apollo/react-hooks';
 import { Formik } from 'formik';
 import { Loading } from '../../components/Loading/loading';
 import { useStyles } from './register.styles';
 import { registerSchema } from '../../validation/register.schema';
-import { Label } from '../../components/Label/label';
+
+export const ValidationTextField = withStyles({
+  root: {
+    '& input:valid + fieldset': {
+      borderColor: '#3f51b5',
+      borderWidth: 2
+    },
+    '& input:invalid + fieldset': {
+      borderColor: 'red',
+      borderWidth: 2
+    },
+    '& input:valid:focus + fieldset': {
+      borderLeftWidth: 6,
+      padding: '4px !important' // override inline-style
+    }
+  }
+})(TextField);
 
 interface IErrors<Type = any> {
   [key: string]: Type;
@@ -66,45 +88,55 @@ export const Register: FC = () => {
             }
           }}
           render={({ values, handleSubmit, handleChange, errors }) => {
-            console.log({ errors });
             return (
               <form className={styles.form} onSubmit={handleSubmit}>
-                <Typography variant="h5" component="h1">
+                <Typography
+                  style={{ marginBottom: '1rem' }}
+                  variant="h5"
+                  component="h1"
+                >
                   Registration form
                 </Typography>
 
-                <Label
+                <ValidationTextField
+                  label="email"
+                  fullWidth
+                  className={styles.margin}
                   error={isValid(errors, 'email')}
-                  title={isValid(errors, 'email') ? errors.email : ''}
-                >
-                  <TextField
-                    fullWidth
-                    id="email"
-                    error={isValid(errors, 'email')}
-                    onChange={handleChange}
-                    margin="normal"
-                    value={values.email}
-                    label="Email"
-                  />
-                </Label>
+                  onChange={handleChange}
+                  variant="outlined"
+                  value={values.email}
+                  id="email"
+                />
 
-                <TextField
+                <ValidationTextField
+                  label="password"
                   fullWidth
-                  id="password"
+                  className={styles.margin}
+                  error={isValid(errors, 'password')}
                   onChange={handleChange}
-                  margin="normal"
+                  variant="outlined"
                   value={values.password}
-                  label="Password"
+                  id="password"
                 />
-                <TextField
+
+                <ValidationTextField
+                  label="username"
+                  className={styles.margin}
                   fullWidth
-                  id="username"
+                  error={isValid(errors, 'username')}
                   onChange={handleChange}
-                  margin="normal"
+                  variant="outlined"
                   value={values.username}
-                  label="Username"
+                  id="username"
                 />
-                <Button variant="contained" color="primary" type="submit">
+
+                <Button
+                  disabled={Object.keys(errors).length > 0}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
                   Register
                 </Button>
               </form>

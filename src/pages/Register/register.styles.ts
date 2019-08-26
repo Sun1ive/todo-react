@@ -9,6 +9,10 @@ export const useStyles = makeStyles(() =>
     form: {
       boxShadow: '5px 5px 10px rgba(0,0,0,0.3)',
       padding: '3rem 3rem 4rem 3rem'
+    },
+
+    margin: {
+      margin: '0.6rem 0'
     }
   })
 );
