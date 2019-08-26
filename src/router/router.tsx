@@ -1,5 +1,10 @@
 import React, { FC } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  NavLink
+} from 'react-router-dom';
 import { Login } from '../pages/Login/login';
 import { Register } from '../pages/Register/register';
 import { Todos } from '../pages/Todos/todos';
@@ -11,34 +16,56 @@ const useStyles = makeStyles(() =>
     toolbar: {
       display: 'flex',
       justifyContent: 'space-between'
+    },
+    navLink: {
+      textDecoration: 'none',
+      color: '#fff'
     }
   })
 );
 
-const RenderButtons: FC<{
-  location: string;
-}> = (props) => {
-  switch (props.location) {
-    case '/login':
-      return <Button color="inherit">Register</Button>;
-
-    case '/register':
-      return <Button color="inherit">Login</Button>;
-
-    default:
-      return <Button color="inherit">Login</Button>;
-  }
-};
-
 export const AppRouter = () => {
   const styles = useStyles();
+
+  const RenderButtons: FC = () => {
+    const { pathname } = window.location;
+
+    switch (pathname) {
+      case '/login':
+        return (
+          <Button color="inherit">
+            <NavLink className={styles.navLink} to="/register">
+              Register
+            </NavLink>
+          </Button>
+        );
+
+      case '/register':
+        return (
+          <Button color="inherit">
+            <NavLink className={styles.navLink} to="/login">
+              Login
+            </NavLink>
+          </Button>
+        );
+
+      default:
+        return (
+          <Button color="inherit">
+            <NavLink className={styles.navLink} to="/login">
+              Login
+            </NavLink>
+          </Button>
+        );
+    }
+  };
 
   return (
     <Router>
       <AppBar position="static">
         <Toolbar className={styles.toolbar}>
           <Typography variant="h6">Todolist</Typography>
-          <RenderButtons location={window.location.pathname} />
+          <RenderButtons />
         </Toolbar>
       </AppBar>
       <Redirect from="*" to="/register" />

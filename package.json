@@ -17,7 +17,8 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
     "typescript": "3.5.3",
-    "use-react-router": "^1.0.7"
+    "use-react-router": "^1.0.7",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,6 +42,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^4.3.5"
+    "@types/react-router-dom": "^4.3.5",
+    "@types/yup": "^0.26.23"
   }
 }
